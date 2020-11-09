@@ -1,0 +1,73 @@
+---
+title: "HW2"
+author: "Griffin Rubin"
+Date: "November 8th, 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Graphical Analysis of 2019 CitiBike Usage Data
+Data analyzed is 5% random sample of full 2019 data
+
+```{r}
+Annual_Data <- read.csv("Annual_Random_Sample_Data_Set.csv")
+#install.packages("ggplot2")
+library(ggplot2)
+```
+Exploratory grpahics:
+```{r}
+##Trip duration by month and gender, most values are well below visible values so more zoomed graph is neccessary
+##Median trip duration = 616
+## Set limits of graph to 1 hour (3600 seconds)
+## 
+trip_under_SD_sub <- Annual_Data[Annual_Data$tripduration < 3600 & Annual_Data$usertype <= "Subscriber",]
+month_sub <- trip_under_SD_sub$Month
+tripduration_sub <- trip_under_SD_sub$tripduration
+Usertype_sub <- trip_under_SD_sub$usertype
+##Number of trips at each duration for subscribers by month of the year
+```
+
+
+```{r}
+ggplot(trip_under_SD_sub, aes(group= month_sub, x=month_sub, y = tripduration_sub)) + geom_boxplot()
+```
+
+This graph shows the trend that subscribers average longer trips during summer/warmer NYC months than they do in the winter.
+
+
+```{r}
+trip_under_SD_cust <- Annual_Data[Annual_Data$tripduration < 3600 & Annual_Data$usertype <= "Customer",]
+month_cust <- trip_under_SD_cust$Month
+tripduration_cust <- trip_under_SD_cust$tripduration
+Usertype_cust <- trip_under_SD_cust$usertype
+ggplot(trip_under_SD_cust, aes(group= month_cust, x=month_cust, y = tripduration_cust)) + geom_boxplot()
+```
+
+This graph shows the trend that customer average much more uniformly distanced trip durantions across each month of theyear with a slight dip in th last 3 months of the year. 
+
+When comparing the data on trip duration per month between subscribers and cutstomers it is clear that subscribers average a lower mean trip duration than customers and that subscribers standard deviation of trip duration is also less than that of customers. It should be noted that this sample shows about 7.46 subscribers per every 1 customer, so the sample is larger and would likely show more percise results. Contrary to this notion is the finding that the subscribers have a much greater value of outliers greater than 45 minutes in ride time (2700 seconds). There were a significant number of rides skewing the main cluster of data that were hours long and were in turn removed from these graphs. A possible explanation for these ride times being so much greater than the mean would be subscribers not checking their bikes into racks when they ride to work or school and instead chaining them to public property, in effect not ending their rides from the morning until they return home in the evening. 
+
+Subscribers may take shorter rides, but they are only around 50% the trip duration while they are 746% the rider amount. The trend that subscribers follow of have greater trip durations during warmer months is not generally followed by the customer segment. A possible explanation for this may be the differences in payment systems for each group, as customers pay for minutes/distance they ride and subscribers pay a flat fee per month. These graphs potentially show that subscribers are more willing to use Citibikes for shorter trip durations regardless of month because they are not charged depending on how far they ride. 
+```{r}
+trip_under_SD_male <- Annual_Data[Annual_Data$tripduration < 3600 & Annual_Data$gender <= "1",]
+month_male <- trip_under_SD_male$Month
+tripduration_male <- trip_under_SD_male$tripduration
+gender_male <- trip_under_SD_male$gender
+ggplot(trip_under_SD_male, aes(group= month_male, x=month_male, y = tripduration_male)) + geom_boxplot()
+```
+
+This graph shows the monthly trip durations for male riders, both subscribers and customers.
+
+```{r}
+trip_under_SD_female <- Annual_Data[Annual_Data$tripduration < 3600 & Annual_Data$gender <= "2",]
+month_female <- trip_under_SD_female$Month
+tripduration_female <- trip_under_SD_female$tripduration
+gender_female <- trip_under_SD_female$gender
+ggplot(trip_under_SD_female, aes(group= month_female, x=month_female, y = tripduration_female)) + geom_boxplot()
+```
+
+This graph shows the monthly trip durations for female riders, both subscribers and customers. Comparing this to male riders, it is almost identical. No significant statistical observations can be made to differentiate these two groups based off soley monthly trip duration. 
+

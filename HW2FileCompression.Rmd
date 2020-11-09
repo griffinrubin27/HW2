@@ -1,0 +1,60 @@
+---
+title: "HWFileCompression"
+output: html_document
+---
+#sample frac package:
+```{r}
+library(dplyr)
+```
+#Input and take 5%  random samples of each months data
+```{r}
+Jan_Data <- read.csv("201901-citibike-tripdata.csv")
+Sample_Jan <- sample_frac(Jan_Data, 0.05)
+Feb_Data <- read.csv("201902-citibike-tripdata.csv")
+Sample_Feb <- sample_frac(Feb_Data, 0.05)
+Mar_Data <- read.csv("201903-citibike-tripdata.csv")
+Sample_Mar <- sample_frac(Mar_Data, 0.05)
+Apr_Data <- read.csv("201904-citibike-tripdata.csv")
+Sample_Apr <- sample_frac(Apr_Data, 0.05)
+May_Data <- read.csv("201905-citibike-tripdata.csv")
+Sample_May <- sample_frac(May_Data, 0.05)
+Jun_Data <- read.csv("201906-citibike-tripdata.csv")
+Sample_Jun <- sample_frac(Jun_Data, 0.05)
+Jul_Data <- read.csv("201907-citibike-tripdata.csv")
+Sample_Jul <- sample_frac(Jul_Data, 0.05)
+Aug_Data <- read.csv("201908-citibike-tripdata.csv")
+Sample_Aug <- sample_frac(Aug_Data, 0.05)
+Sep_Data <- read.csv("201909-citibike-tripdata.csv")
+Sample_Sep <- sample_frac(Sep_Data, 0.05)
+Oct_Data <- read.csv("201910-citibike-tripdata.csv")
+Sample_Oct <- sample_frac(Oct_Data, 0.05)
+Nov_Data <- read.csv("201911-citibike-tripdata.csv")
+Sample_Nov <- sample_frac(Nov_Data, 0.05)
+Dec_Data <- read.csv("201912-citibike-tripdata.csv")
+Sample_Dec <- sample_frac(Dec_Data, 0.05)
+```
+#add months to each monthly data set
+```{r}
+Sample_Jan$Month <- 1
+Sample_Feb$Month <- 2
+Sample_Mar$Month <- 3
+Sample_Apr$Month <- 4
+Sample_May$Month <- 5
+Sample_Jun$Month <- 6
+Sample_Jul$Month <- 7
+Sample_Aug$Month <- 8
+Sample_Sep$Month <- 9
+Sample_Oct$Month <- 10
+Sample_Nov$Month <- 11
+Sample_Dec$Month <- 12
+```
+#combine alll the data sets
+```{r}
+Annual_data <- rbind(Sample_Jan, Sample_Feb, Sample_Mar, Sample_Apr, Sample_May, Sample_Jun, Sample_Jul, Sample_Aug, Sample_Sep, Sample_Oct, Sample_Nov, Sample_Dec)
+```
+#Export as Csv
+```{r}
+write.csv(Annual_data, "Annual_Random_Sample_Data_Set.csv", row.names = FALSE)
+```
+
+
